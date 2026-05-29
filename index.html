@@ -9,7 +9,9 @@
         /* --- ベーススタイル --- */
         :root {
             --disney-gold: #FFD700;
-            --disney-blue: #0f172a;
+            --disney-gold-glow: rgba(255, 215, 0, 0.6);
+            --disney-blue: #090d16;
+            --panel-border: rgba(255, 215, 0, 0.45);
         }
         * {
             box-sizing: border-box;
@@ -40,7 +42,7 @@
         .bg-gradient {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(ellipse at center, rgba(30,58,138,0.4) 0%, rgba(15,23,42,0.8) 50%, #000 100%);
+            background: radial-gradient(ellipse at center, rgba(15, 23, 42, 0.8) 0%, rgba(9, 13, 22, 0.95) 60%, #020408 100%);
             z-index: 0;
             pointer-events: none;
         }
@@ -55,22 +57,22 @@
             background: white;
             border-radius: 50%;
             animation: twinkle infinite ease-in-out;
-            box-shadow: 0 0 5px #fff, 0 0 10px #FFD700;
+            box-shadow: 0 0 6px #fff, 0 0 12px #FFD700;
         }
         @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(0.5); }
-            50% { opacity: 1; transform: scale(1.2); }
+            0%, 100% { opacity: 0.1; transform: scale(0.4); }
+            50% { opacity: 0.9; transform: scale(1.3); }
         }
 
         #special-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             z-index: 30;
-            background: radial-gradient(circle, rgba(147,51,234,0.5) 0%, rgba(0,0,0,0.8) 100%);
+            background: radial-gradient(circle, rgba(88, 28, 135, 0.6) 0%, rgba(0, 0, 0, 0.9) 100%);
             mix-blend-mode: hard-light;
             pointer-events: none;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.4s ease-in-out;
         }
         #special-overlay.show {
             opacity: 1;
@@ -88,91 +90,119 @@
             transition: opacity 0.5s;
         }
         .screen-dark {
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(2, 4, 8, 0.9);
+            background-image: radial-gradient(circle, rgba(15, 23, 42, 0.6) 0%, #020408 100%);
         }
 
         /* --- タイトル画面 --- */
         .title-sub {
             color: #facc15;
             font-size: 1.25rem;
-            letter-spacing: 0.3em;
-            margin-bottom: 0.5rem;
+            letter-spacing: 0.4em;
+            margin-bottom: 0.75rem;
             text-align: center;
+            text-shadow: 0 0 10px rgba(250, 204, 21, 0.6);
         }
         .title-main {
-            font-size: 4rem;
-            font-weight: bold;
-            background: linear-gradient(to bottom, #fef08a, #ca8a04);
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(to bottom, #fff5c0 0%, #facc15 40%, #ca8a04 80%, #854d0e 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(255,215,0,0.5));
-            margin-bottom: 3rem;
+            filter: drop-shadow(0 0 20px rgba(255,215,0,0.45));
+            margin-bottom: 3.5rem;
             text-align: center;
+            letter-spacing: 0.05em;
         }
-        @media (min-width: 768px) { .title-main { font-size: 6rem; } }
+        @media (min-width: 768px) { .title-main { font-size: 5.5rem; } }
 
         /* --- 汎用ボタン・パネル --- */
         .glass-panel {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(9, 13, 22, 0.95) 100%);
+            backdrop-filter: blur(12px);
+            border: 1.5px solid var(--panel-border);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.75), inset 0 0 15px rgba(255, 215, 0, 0.1);
             border-radius: 1rem;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .glass-panel:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+            border-color: var(--disney-gold);
+            box-shadow: 0 12px 40px 0 rgba(255, 215, 0, 0.15), inset 0 0 20px rgba(255, 215, 0, 0.15);
         }
         .btn-magic {
-            background: linear-gradient(135deg, rgba(255,215,0,0.2) 0%, rgba(255,215,0,0) 100%);
+            background: linear-gradient(135deg, rgba(255,215,0,0.25) 0%, rgba(255,215,0,0.02) 100%);
             border: 2px solid var(--disney-gold);
-            box-shadow: 0 0 10px rgba(255,215,0,0.3);
+            box-shadow: 0 0 15px rgba(255,215,0,0.25), inset 0 0 10px rgba(255, 215, 0, 0.1);
             border-radius: 9999px;
-            color: #fef9c3;
+            color: #fffbdf;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.1s ease;
+            transition: all 0.2s ease;
+        }
+        .btn-magic:hover {
+            box-shadow: 0 0 25px rgba(255,215,0,0.55), inset 0 0 15px rgba(255, 215, 0, 0.2);
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
         }
         .btn-magic:active {
             transform: scale(0.95);
-            background: rgba(255,215,0,0.3);
+            background: rgba(255,215,0,0.35);
         }
         .btn-large {
-            padding: 1.25rem 3rem;
+            padding: 1.25rem 3.5rem;
             font-size: 1.5rem;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
         }
 
         /* --- キャラ選択画面 --- */
         .select-title {
             font-size: 2.25rem;
             color: #fde047;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             text-align: center;
+            text-shadow: 0 0 15px rgba(253, 224, 71, 0.4);
+            letter-spacing: 0.05em;
         }
         .select-grid {
             display: flex;
-            gap: 1.5rem;
+            gap: 2rem;
             width: 100%;
-            max-width: 56rem;
+            max-width: 60rem;
             justify-content: center;
+            padding: 0 1.5rem;
         }
         .char-card {
             flex: 1;
-            padding: 1.5rem;
+            padding: 2rem 1.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            border-top: 2px solid rgba(255,215,0,0.5);
+            border-top: 4px solid var(--disney-gold);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
-        .char-card.blue { border-top-color: rgba(96,165,250,0.5); }
-        .char-card.red { border-top-color: rgba(248,113,113,0.5); }
-        .char-icon { font-size: 4rem; margin-bottom: 1rem; }
-        .char-name { font-size: 1.125rem; font-weight: bold; color: #fef08a; }
-        .char-name.blue { color: #bfdbfe; }
-        .char-name.red { color: #fecaca; }
-        .char-desc { font-size: 0.75rem; color: #9ca3af; margin-top: 0.5rem; text-align: center; }
+        .char-card.blue { border-top-color: #3b82f6; }
+        .char-card.red { border-top-color: #ef4444; }
+        
+        .char-preview-box {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .char-preview-box svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+        }
+
+        .char-name { font-size: 1.35rem; font-weight: bold; color: #fef08a; letter-spacing: 0.05em; }
+        .char-name.blue { color: #60a5fa; }
+        .char-name.red { color: #f87171; }
+        .char-desc { font-size: 0.85rem; color: #d1d5db; margin-top: 0.75rem; text-align: center; line-height: 1.5; }
 
         /* --- バトル画面 UI --- */
         #screen-battle {
@@ -183,56 +213,70 @@
         /* HUD */
         .hud {
             width: 100%;
-            padding: 1.5rem 1rem 0.5rem;
+            padding: 1.75rem 1.5rem 0.5rem;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 1rem;
+            gap: 1.5rem;
             z-index: 20;
         }
-        .hud-side { width: 45%; }
+        .hud-side { width: 42%; }
         .hud-center {
-            width: 10%;
+            width: 16%;
             display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
             font-size: 2.25rem;
             color: var(--disney-gold);
-            filter: drop-shadow(0 0 5px var(--disney-gold));
+            filter: drop-shadow(0 0 8px var(--disney-gold-glow));
+            line-height: 1.1;
+        }
+        .stage-text {
+            font-size: 1.1rem;
+            color: #fde047;
+            margin-bottom: 0.35rem;
+            letter-spacing: 0.15em;
+            text-shadow: 0 0 8px rgba(253, 224, 71, 0.5);
+            font-weight: bold;
         }
         .hud-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.35rem;
         }
         .hud-header.reverse { flex-direction: row-reverse; }
         .hud-name {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: #fef08a;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
         .hud-name.enemy { color: #d8b4fe; }
         
         .hp-border {
             width: 100%;
-            height: 2rem;
-            background-color: #450a0a;
-            border: 2px solid #9ca3af;
-            border-radius: 0.25rem;
+            height: 1.875rem;
+            background-color: #270505;
+            border: 2.5px solid var(--panel-border);
+            border-radius: 0.5rem;
             padding: 2px;
             display: flex;
-            box-shadow: 0 0 10px rgba(0,0,0,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.9), inset 0 0 8px rgba(0,0,0,0.8);
         }
-        .hp-border.player { justify-content: flex-end; }
-        .hp-border.enemy { justify-content: flex-start; }
+        .hp-border.player { justify-content: flex-end; border-color: rgba(255, 215, 0, 0.5); }
+        .hp-border.enemy { justify-content: flex-start; border-color: rgba(168, 85, 247, 0.5); }
         
         .hp-bar {
             height: 100%;
             width: 100%;
-            transition: width 0.2s ease-out;
+            border-radius: 0.25rem;
+            transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.25);
         }
-        .hp-bar.player { background: linear-gradient(to left, #fde047, #eab308); }
-        .hp-bar.enemy { background: linear-gradient(to right, #ef4444, #b91c1c); }
+        .hp-bar.player { background: linear-gradient(to left, #fde047, #eab308); filter: drop-shadow(0 0 4px rgba(234, 179, 8, 0.6)); }
+        .hp-bar.enemy { background: linear-gradient(to right, #f87171, #dc2626); filter: drop-shadow(0 0 4px rgba(220, 38, 38, 0.6)); }
 
         /* 闘技場 */
         .arena {
@@ -241,81 +285,100 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            padding: 0 3rem 2rem;
+            padding: 0 4rem 2.5rem;
             z-index: 10;
+            width: 100%;
+            max-width: 72rem;
+            margin: 0 auto;
         }
-        @media (min-width: 768px) { .arena { padding: 0 8rem 2rem; } }
         
-        .sprite-wrapper { position: relative; z-index: 20; }
+        .sprite-wrapper { position: relative; z-index: 20; width: 180px; height: 180px; display: flex; align-items: flex-end; justify-content: center; }
         .sprite-wrapper.enemy { z-index: 10; }
         
         .sprite {
-            font-size: 8rem;
-            filter: drop-shadow(0 25px 25px rgba(0,0,0,0.5));
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 15px 20px rgba(0,0,0,0.6));
             transform-origin: bottom;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
         }
-        @media (min-width: 768px) { .sprite { font-size: 12rem; } }
+        .sprite svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .sprite-wrapper { width: 280px; height: 280px; }
+        }
         .scale-x-reverse { transform: scaleX(-1); }
 
         .shield-effect {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             border-radius: 50%;
-            transform: scale(1.5);
-            filter: blur(10px);
+            transform: scale(1.3);
+            filter: blur(12px);
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: opacity 0.25s ease-in-out;
+            pointer-events: none;
+            box-shadow: inset 0 0 30px rgba(255,255,255,0.4);
         }
-        .shield-player { background-color: rgba(59, 130, 246, 0.4); }
-        .shield-enemy { background-color: rgba(168, 85, 247, 0.4); }
+        .shield-player { background-color: rgba(59, 130, 246, 0.45); border: 2px solid #60a5fa; }
+        .shield-enemy { background-color: rgba(168, 85, 247, 0.45); border: 2px solid #c084fc; }
 
         /* コントロールパネル */
         .controls-container {
-            padding: 1rem;
-            background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0.8), transparent);
+            padding: 1.25rem;
+            background: linear-gradient(to top, rgba(2,4,8,1) 80%, rgba(2,4,8,0.7) 100%);
             z-index: 20;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            width: 100%;
         }
         @media (min-width: 768px) { .controls-container { padding: 2rem; } }
         
         .controls {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            max-width: 48rem;
+            gap: 1.25rem;
+            max-width: 52rem;
             margin: 0 auto;
             width: 100%;
         }
         .btn-control {
             flex: 1;
-            padding: 1rem 0;
+            padding: 1.25rem 0;
             border-radius: 1rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 0.25rem;
+            gap: 0.35rem;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5), inset 0 0 10px rgba(255, 215, 0, 0.05);
         }
-        @media (min-width: 768px) { .btn-control { padding: 1.5rem 0; } }
+        @media (min-width: 768px) { .btn-control { padding: 1.75rem 0; } }
         
         .btn-control.defend { border-color: #3b82f6; color: #bfdbfe; }
+        .btn-control.defend:hover { border-color: #60a5fa; box-shadow: 0 0 15px rgba(59,130,246,0.3); }
         .btn-control.special { border-color: #a855f7; color: #d8b4fe; }
+        .btn-control.special:hover { border-color: #c084fc; box-shadow: 0 0 15px rgba(168,85,247,0.3); }
         
-        .btn-control .icon { font-size: 1.875rem; z-index: 10; position: relative; }
-        .btn-control .label { font-size: 1.125rem; font-weight: bold; z-index: 10; position: relative; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+        .btn-control .icon { font-size: 2rem; z-index: 10; position: relative; }
+        .btn-control .label { font-size: 1.15rem; font-weight: bold; z-index: 10; position: relative; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); letter-spacing: 0.1em; }
         .btn-control .key { font-size: 0.75rem; color: #9ca3af; z-index: 10; position: relative; }
-        .btn-control.defend .key { color: rgba(96, 165, 250, 0.7); }
-        .btn-control.special .key { color: rgba(216, 180, 254, 0.7); }
+        .btn-control.defend .key { color: rgba(147, 197, 253, 0.8); }
+        .btn-control.special .key { color: rgba(216, 180, 254, 0.8); }
 
         #special-gauge-bg {
             position: absolute;
             bottom: 0; left: 0;
             width: 100%;
             height: 0%;
-            background-color: rgba(147, 51, 234, 0.6);
-            transition: height 0.2s;
+            background: linear-gradient(to top, rgba(147, 51, 234, 0.8) 0%, rgba(192, 132, 252, 0.5) 100%);
+            transition: height 0.3s ease;
             z-index: 0;
         }
         .ready-pulse {
@@ -323,124 +386,133 @@
             border-color: #facc15 !important;
         }
         @keyframes readyPulse {
-            0%, 100% { box-shadow: 0 0 10px rgba(250, 204, 21, 0.5); }
-            50% { box-shadow: 0 0 25px rgba(250, 204, 21, 1); }
+            0%, 100% { box-shadow: 0 0 12px rgba(250, 204, 21, 0.4), inset 0 0 8px rgba(250, 204, 21, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(250, 204, 21, 0.8), inset 0 0 15px rgba(250, 204, 21, 0.4); }
         }
 
         /* --- アニメーション関連 --- */
         /* プレイヤーの攻撃 */
         @keyframes dash-right {
             0% { transform: translateX(0) rotate(0deg); }
-            40% { transform: translateX(120px) rotate(15deg) scale(1.1); }
+            35% { transform: translateX(140px) rotate(12deg) scale(1.15); }
             100% { transform: translateX(0) rotate(0deg); }
         }
-        .anim-dash-right { animation: dash-right 0.3s ease-in-out forwards; }
+        .anim-dash-right { animation: dash-right 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
 
         /* 敵の攻撃 */
         @keyframes dash-left {
             0% { transform: translateX(0) scaleX(-1) rotate(0deg); }
-            40% { transform: translateX(-120px) scaleX(-1) rotate(-15deg) scale(1.1); }
+            35% { transform: translateX(-140px) scaleX(-1) rotate(-12deg) scale(1.15); }
             100% { transform: translateX(0) scaleX(-1) rotate(0deg); }
         }
-        .anim-dash-left { animation: dash-left 0.4s ease-in-out forwards; }
+        .anim-dash-left { animation: dash-left 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
 
         /* 被弾揺れ */
         @keyframes hit-shake {
             0% { transform: translateX(0); filter: brightness(1); }
-            20% { transform: translateX(-15px); filter: brightness(2) sepia(1) hue-rotate(-50deg) saturate(5); }
-            40% { transform: translateX(15px); filter: brightness(2) sepia(1) hue-rotate(-50deg) saturate(5); }
-            60% { transform: translateX(-10px); filter: brightness(1); }
-            80% { transform: translateX(10px); filter: brightness(1); }
+            15% { transform: translateX(-20px); filter: brightness(1.8) sepia(0.8) hue-rotate(-50deg) saturate(3); }
+            30% { transform: translateX(20px); filter: brightness(1.8) sepia(0.8) hue-rotate(-50deg) saturate(3); }
+            45% { transform: translateX(-15px); filter: brightness(1.3); }
+            60% { transform: translateX(15px); filter: brightness(1.3); }
+            80% { transform: translateX(-8px); filter: brightness(1.1); }
             100% { transform: translateX(0); filter: brightness(1); }
         }
-        .anim-hit { animation: hit-shake 0.4s ease-in-out forwards; }
+        .anim-hit { animation: hit-shake 0.45s ease-in-out forwards; }
         
         /* 敵の被弾 (反転維持) */
         @keyframes enemy-hit-shake {
             0% { transform: translateX(0) scaleX(-1); filter: brightness(1); }
-            20% { transform: translateX(15px) scaleX(-1); filter: brightness(2) sepia(1) hue-rotate(-50deg) saturate(5); }
-            40% { transform: translateX(-15px) scaleX(-1); filter: brightness(2) sepia(1) hue-rotate(-50deg) saturate(5); }
-            60% { transform: translateX(10px) scaleX(-1); filter: brightness(1); }
-            80% { transform: translateX(-10px) scaleX(-1); filter: brightness(1); }
+            15% { transform: translateX(20px) scaleX(-1); filter: brightness(1.8) sepia(0.8) hue-rotate(-50deg) saturate(3); }
+            30% { transform: translateX(-20px) scaleX(-1); filter: brightness(1.8) sepia(0.8) hue-rotate(-50deg) saturate(3); }
+            45% { transform: translateX(15px) scaleX(-1); filter: brightness(1.3); }
+            60% { transform: translateX(-15px) scaleX(-1); filter: brightness(1.3); }
+            80% { transform: translateX(8px) scaleX(-1); filter: brightness(1.1); }
             100% { transform: translateX(0) scaleX(-1); filter: brightness(1); }
         }
-        .anim-enemy-hit { animation: enemy-hit-shake 0.4s ease-in-out forwards; }
+        .anim-enemy-hit { animation: enemy-hit-shake 0.45s ease-in-out forwards; }
 
         /* 画面揺れ */
         @keyframes screen-shake {
             0% { transform: translate(0, 0); }
-            20% { transform: translate(-5px, 5px); }
-            40% { transform: translate(5px, -5px); }
-            60% { transform: translate(-5px, -5px); }
-            80% { transform: translate(5px, 5px); }
+            15% { transform: translate(-8px, 8px); }
+            30% { transform: translate(8px, -8px); }
+            45% { transform: translate(-8px, -8px); }
+            60% { transform: translate(8px, 8px); }
+            75% { transform: translate(-4px, 4px); }
+            90% { transform: translate(4px, -4px); }
             100% { transform: translate(0, 0); }
         }
-        .anim-screen-shake { animation: screen-shake 0.3s ease-in-out; }
+        .anim-screen-shake { animation: screen-shake 0.4s ease-in-out; }
 
-        /* 呼吸 */
+        /* 呼吸（上下の揺らぎ） */
         @keyframes breathe {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-12px); }
         }
-        .idle { animation: breathe 3s infinite ease-in-out; }
-        .idle-enemy { animation: breathe 3s infinite ease-in-out; animation-delay: 1.5s; transform: scaleX(-1); }
+        .idle { animation: breathe 3.5s infinite ease-in-out; }
+        .idle-enemy { animation: breathe 3.5s infinite ease-in-out; animation-delay: 1.75s; transform: scaleX(-1); }
 
         /* --- ポップアップ・カットイン --- */
         .damage-text {
             position: fixed;
             font-weight: 900;
-            font-size: 3rem;
+            font-size: 3.5rem;
             z-index: 100;
             pointer-events: none;
-            animation: floatUp 1s ease-out forwards;
+            animation: floatUp 1s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
             font-family: 'Cinzel', serif;
-            text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 3px -1px 0 #000, -1px 3px 0 #000;
+            text-shadow: 4px 4px 0 #000, -2px -2px 0 #000, 4px -2px 0 #000, -2px 4px 0 #000;
         }
         @keyframes floatUp {
-            0% { transform: translateY(0) scale(0.5); opacity: 1; }
-            20% { transform: translateY(-20px) scale(1.2); opacity: 1; }
-            100% { transform: translateY(-80px) scale(1); opacity: 0; }
+            0% { transform: translateY(0) scale(0.4); opacity: 0; }
+            15% { transform: translateY(-30px) scale(1.3); opacity: 1; }
+            100% { transform: translateY(-100px) scale(0.9); opacity: 0; }
         }
 
         .cutin {
             position: absolute;
-            top: 25%;
+            top: 30%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: bold;
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             z-index: 40;
             white-space: nowrap;
-            filter: drop-shadow(0 0 10px rgba(0,0,0,1));
+            filter: drop-shadow(0 0 15px rgba(0,0,0,1));
+            letter-spacing: 0.1em;
         }
-        @media (min-width: 768px) { .cutin { font-size: 4rem; } }
-        .cutin.show { opacity: 1; }
+        @media (min-width: 768px) { .cutin { font-size: 4.5rem; } }
+        .cutin.show { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
         
-        .text-color-green { color: #86efac; }
-        .text-color-blue { color: #93c5fd; }
-        .text-color-red { color: #fca5a5; }
+        .text-color-green { color: #86efac; text-shadow: 0 0 20px rgba(74, 222, 128, 0.6); }
+        .text-color-blue { color: #93c5fd; text-shadow: 0 0 20px rgba(59, 130, 246, 0.6); }
+        .text-color-red { color: #fca5a5; text-shadow: 0 0 20px rgba(239, 68, 68, 0.6); }
 
         /* --- リザルト画面 --- */
         .result-title {
             font-size: 4.5rem;
             margin-bottom: 1rem;
             text-align: center;
+            letter-spacing: 0.05em;
         }
         .result-title.win {
             color: #facc15;
-            filter: drop-shadow(0 0 20px #facc15);
+            filter: drop-shadow(0 0 25px rgba(250, 204, 21, 0.6));
         }
         .result-title.lose {
             color: #ef4444;
-            filter: drop-shadow(0 0 20px #ef4444);
+            filter: drop-shadow(0 0 25px rgba(239, 68, 68, 0.6));
         }
         .result-desc {
             font-size: 1.5rem;
             color: #e5e7eb;
-            margin-bottom: 3rem;
+            margin-bottom: 3.5rem;
             text-align: center;
+            max-width: 32rem;
+            padding: 0 1.5rem;
+            line-height: 1.6;
         }
     </style>
 </head>
@@ -455,7 +527,7 @@
 
     <!-- ================= タイトル画面 ================= -->
     <div id="screen-title" class="screen">
-        <div class="idle">
+        <div class="idle" style="margin-bottom: 2rem;">
             <p class="title-sub font-magic">REALTIME BATTLE</p>
             <h1 class="title-main font-magic">DURIAN FIGHTER</h1>
         </div>
@@ -471,21 +543,21 @@
         <div class="select-grid">
             <!-- プリンセス -->
             <div onclick="selectCharacter('princess')" class="glass-panel char-card">
-                <div class="char-icon">👸</div>
+                <div class="char-preview-box" id="preview-princess"></div>
                 <div class="char-name">プリンセス</div>
-                <div class="char-desc">必殺: 大回復</div>
+                <div class="char-desc">必殺: 王家の癒し<br><span style="color:#4ade80;">最大HPの50%を高速大回復</span></div>
             </div>
             <!-- 魔法使い -->
             <div onclick="selectCharacter('wizard')" class="glass-panel char-card blue">
-                <div class="char-icon">🧙‍♂️</div>
+                <div class="char-preview-box" id="preview-wizard"></div>
                 <div class="char-name blue">魔法使い</div>
-                <div class="char-desc">必殺: メテオ(大ダメージ)</div>
+                <div class="char-desc">必殺: メテオ・ストライク<br><span style="color:#60a5fa;">攻撃力の4倍の超爆絶ダメージ</span></div>
             </div>
             <!-- 野獣 -->
             <div onclick="selectCharacter('beast')" class="glass-panel char-card red">
-                <div class="char-icon">🦁</div>
+                <div class="char-preview-box" id="preview-beast"></div>
                 <div class="char-name red">野獣</div>
-                <div class="char-desc">必殺: 突進＆防御UP</div>
+                <div class="char-desc">必殺: ビースト・ラッシュ<br><span style="color:#f87171;">大突撃 & 5秒間受けるダメージ半減</span></div>
             </div>
         </div>
     </div>
@@ -506,7 +578,10 @@
             </div>
 
             <!-- 中央 VS -->
-            <div class="hud-center font-magic">VS</div>
+            <div class="hud-center font-magic">
+                <div class="stage-text">STAGE <span id="stage-display">1</span></div>
+                <div>VS</div>
+            </div>
 
             <!-- 敵情報 -->
             <div class="hud-side">
@@ -525,13 +600,13 @@
             <!-- プレイヤー -->
             <div class="sprite-wrapper">
                 <div id="player-shield" class="shield-effect shield-player"></div>
-                <div id="player-sprite" class="sprite idle">👸</div>
+                <div id="player-sprite" class="sprite idle"></div>
             </div>
 
             <!-- 敵 -->
             <div class="sprite-wrapper enemy">
                 <div id="enemy-shield" class="shield-effect shield-enemy"></div>
-                <div id="enemy-sprite" class="sprite idle-enemy scale-x-reverse">🍎</div>
+                <div id="enemy-sprite" class="sprite idle-enemy scale-x-reverse"></div>
             </div>
 
             <!-- カットイン表示用 -->
@@ -543,7 +618,7 @@
             <div class="controls">
                 
                 <div id="btn-attack" onpointerdown="doAttack()" class="btn-magic glass-panel btn-control">
-                    <span class="icon">👊</span>
+                    <span class="icon">⚔️</span>
                     <span class="label">攻撃</span>
                     <span class="key">Key: A</span>
                 </div>
@@ -556,7 +631,7 @@
                 
                 <div id="btn-special" onpointerdown="doSpecial()" class="glass-panel btn-control special">
                     <div id="special-gauge-bg"></div>
-                    <span class="icon">✨</span>
+                    <span class="icon">🔮</span>
                     <span class="label">必殺技</span>
                     <span class="key">Key: D</span>
                 </div>
@@ -595,24 +670,233 @@
         }
         createStars();
 
-        // --- データ定義 ---
-        const characters = {
-            princess: { id: 'princess', name: 'プリンセス', icon: '👸', maxHp: 150, atk: 15 },
-            wizard:   { id: 'wizard',   name: '魔法使い',   icon: '🧙‍♂️', maxHp: 120, atk: 25 },
-            beast:    { id: 'beast',    name: '野獣',       icon: '🦁', maxHp: 200, atk: 12 }
+        // ================= 美麗なリアル調SVGキャラクターアート =================
+        const characterSVGs = {
+            princess: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- 光彩・オーラ -->
+                <circle cx="100" cy="90" r="45" fill="none" stroke="#60a5fa" stroke-width="1.5" opacity="0.4" stroke-dasharray="5,5"/>
+                <circle cx="100" cy="90" r="55" fill="none" stroke="#fef08a" stroke-width="1" opacity="0.2"/>
+                <!-- ティアラ -->
+                <path d="M85 55 L100 35 L115 55 L107 50 L100 53 L93 50 Z" fill="url(#gold-grad)" stroke="#ca8a04" stroke-width="1"/>
+                <circle cx="100" cy="35" r="3" fill="#60a5fa" filter="drop-shadow(0 0 3px #60a5fa)"/>
+                <circle cx="85" cy="55" r="2" fill="#fff"/>
+                <circle cx="115" cy="55" r="2" fill="#fff"/>
+                <!-- 髪 -->
+                <path d="M60 120 C50 80 65 55 100 55 C135 55 150 80 140 120 C145 140 142 165 135 180 C128 150 120 110 100 110 C80 110 72 150 65 180 C58 165 55 140 60 120 Z" fill="#451a03" stroke="#1c0d02" stroke-width="1.5"/>
+                <!-- 優美な顔 -->
+                <path d="M80 85 C80 115 120 115 120 85 C120 75 120 70 100 70 C80 70 80 75 80 85 Z" fill="#fed7aa"/>
+                <!-- 涼し気な瞳 -->
+                <ellipse cx="91" cy="85" rx="4" ry="2" fill="#1e3a8a"/>
+                <ellipse cx="91" cy="85" rx="1.5" ry="1" fill="#fff"/>
+                <ellipse cx="109" cy="85" rx="4" ry="2" fill="#1e3a8a"/>
+                <ellipse cx="109" cy="85" rx="1.5" ry="1" fill="#fff"/>
+                <path d="M87 81 C91 80 95 82 95 82" stroke="#1e293b" stroke-width="1.5" fill="none"/>
+                <path d="M105 81 C109 80 113 82 113 82" stroke="#1e293b" stroke-width="1.5" fill="none"/>
+                <!-- 紅い唇 -->
+                <path d="M96 98 C98 101 102 101 104 98 C102 98 98 98 96 98 Z" fill="#f43f5e"/>
+                <!-- ドレス -->
+                <path d="M72 110 C50 140 50 190 40 200 L160 200 C150 190 150 140 128 110 C120 125 100 130 100 130 C100 130 80 125 72 110 Z" fill="url(#dress-grad)" stroke="#2563eb" stroke-width="2"/>
+                <!-- 魔法のブローチ -->
+                <path d="M100 122 L107 132 L100 142 L93 132 Z" fill="#60a5fa" filter="drop-shadow(0 0 5px #60a5fa)"/>
+                
+                <defs>
+                    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#fffbeb"/>
+                        <stop offset="50%" stop-color="#facc15"/>
+                        <stop offset="100%" stop-color="#ca8a04"/>
+                    </linearGradient>
+                    <linearGradient id="dress-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#3b82f6"/>
+                        <stop offset="50%" stop-color="#1d4ed8"/>
+                        <stop offset="100%" stop-color="#1e1b4b"/>
+                    </linearGradient>
+                </defs>
+            </svg>`,
+
+            wizard: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- 渦巻く魔力 -->
+                <path d="M50 110 Q100 30 150 110 T250 110" fill="none" stroke="#a855f7" stroke-width="2" opacity="0.3" stroke-dasharray="10,10"/>
+                <!-- ローブ＆フード -->
+                <path d="M60 200 C60 140 70 70 100 50 C130 70 140 140 140 200 Z" fill="url(#wizard-robe)" stroke="#4a044e" stroke-width="2"/>
+                <!-- フードの内側影 -->
+                <path d="M75 100 C75 65 100 60 100 60 C100 60 125 65 125 100 C125 130 115 140 100 140 C85 140 75 130 75 100 Z" fill="#090514"/>
+                <!-- 妖しく光る瞳 -->
+                <circle cx="90" cy="100" r="4" fill="#a855f7" filter="drop-shadow(0 0 6px #d8b4fe)"/>
+                <circle cx="110" cy="100" r="4" fill="#a855f7" filter="drop-shadow(0 0 6px #d8b4fe)"/>
+                <!-- 白い髭 -->
+                <path d="M85 120 L100 175 L115 120 C115 120 100 135 85 120 Z" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1"/>
+                <!-- 輝く水晶付きの杖 -->
+                <path d="M140 200 L145 70" stroke="#78350f" stroke-width="5" stroke-linecap="round"/>
+                <circle cx="146" cy="60" r="10" fill="#c084fc" filter="drop-shadow(0 0 8px #c084fc)"/>
+                <path d="M136 60 Q146 45 156 60" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.7"/>
+
+                <defs>
+                    <linearGradient id="wizard-robe" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#1e1b4b"/>
+                        <stop offset="60%" stop-color="#581c87"/>
+                        <stop offset="100%" stop-color="#020617"/>
+                    </linearGradient>
+                </defs>
+            </svg>`,
+
+            beast: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- 闘気エフェクト -->
+                <path d="M30 180 C20 100 180 100 170 180" fill="none" stroke="#ef4444" stroke-width="3" opacity="0.4" stroke-dasharray="8,8"/>
+                <!-- 野性的なたてがみ -->
+                <path d="M50 120 C30 80 50 40 100 30 C150 40 170 80 150 120 C175 145 160 190 150 200 C120 185 80 185 50 200 C40 190 25 145 50 120 Z" fill="url(#beast-mane)" stroke="#450a0a" stroke-width="2"/>
+                <!-- 獰猛な狼顔 -->
+                <path d="M75 100 C75 75 125 75 125 100 C125 125 120 145 100 160 C80 145 75 125 75 100 Z" fill="#374151" stroke="#111827" stroke-width="2"/>
+                <path d="M85 130 L100 160 L115 130 Z" fill="#1f2937"/>
+                <!-- ギラつく紅い眼光 -->
+                <path d="M80 95 L95 102 L82 105 Z" fill="#ef4444" filter="drop-shadow(0 0 5px #ef4444)"/>
+                <path d="M120 95 L105 102 L118 105 Z" fill="#ef4444" filter="drop-shadow(0 0 5px #ef4444)"/>
+                <!-- 牙 -->
+                <path d="M88 125 L92 135 L95 125" fill="#fff"/>
+                <path d="M112 125 L108 135 L105 125" fill="#fff"/>
+                <!-- 逞しい肩 -->
+                <path d="M50 200 C50 170 70 160 100 160 C130 160 150 170 150 200 Z" fill="#1f2937" stroke="#111827" stroke-width="2"/>
+                <!-- 鋭いゴールドの爪 -->
+                <path d="M55 190 L50 200 L60 198 Z" fill="#facc15" filter="drop-shadow(0 0 3px #facc15)"/>
+                <path d="M145 190 L150 200 L140 198 Z" fill="#facc15" filter="drop-shadow(0 0 3px #facc15)"/>
+
+                <defs>
+                    <linearGradient id="beast-mane" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#991b1b"/>
+                        <stop offset="50%" stop-color="#7f1d1d"/>
+                        <stop offset="100%" stop-color="#180000"/>
+                    </linearGradient>
+                </defs>
+            </svg>`,
+
+            // --- 敵のSVGアート ---
+            apple: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- 紫の邪悪な毒霧 -->
+                <ellipse cx="100" cy="180" rx="60" ry="15" fill="rgba(147, 51, 234, 0.4)" filter="blur(8px)"/>
+                <!-- 毒の触手・茨 -->
+                <path d="M40 140 C20 120 20 80 35 60 C40 80 50 100 60 110" fill="none" stroke="#1e1b4b" stroke-width="3" stroke-linecap="round"/>
+                <path d="M160 140 C180 120 180 80 165 60 C160 80 150 100 140 110" fill="none" stroke="#1e1b4b" stroke-width="3" stroke-linecap="round"/>
+                <!-- 邪悪なリンゴ本体 -->
+                <path d="M100 55 C60 55 40 75 40 115 C40 165 75 185 100 185 C125 185 160 165 160 115 C160 75 140 55 100 55 Z" fill="url(#poison-apple)" stroke="#7f1d1d" stroke-width="2.5"/>
+                <!-- リンゴのくぼみ・ヘタ -->
+                <path d="M100 55 C95 40 85 35 85 35" fill="none" stroke="#451a03" stroke-width="4" stroke-linecap="round"/>
+                <path d="M100 53 C105 45 118 43 125 46 C120 40 105 45 100 53 Z" fill="#14532d"/>
+                <!-- 怪しく裂けた眼 -->
+                <path d="M65 95 Q80 90 90 105 Q75 108 65 95 Z" fill="#a3e635" filter="drop-shadow(0 0 4px #a3e635)"/>
+                <path d="M135 95 Q120 90 110 105 Q125 108 135 95 Z" fill="#a3e635" filter="drop-shadow(0 0 4px #a3e635)"/>
+                <!-- 嘲笑う歪んだ口 -->
+                <path d="M75 140 Q100 165 125 140 Q100 145 75 140 Z" fill="#020617" stroke="#dc2626" stroke-width="2"/>
+                <!-- 牙 -->
+                <path d="M85 141 L88 148 L92 142" fill="#fff"/>
+                <path d="M115 141 L112 148 L108 142" fill="#fff"/>
+
+                <defs>
+                    <linearGradient id="poison-apple" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#b91c1c"/>
+                        <stop offset="60%" stop-color="#7f1d1d"/>
+                        <stop offset="100%" stop-color="#3b0764"/>
+                    </linearGradient>
+                </defs>
+            </svg>`,
+
+            banana: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- 影・紫の瘴気 -->
+                <ellipse cx="100" cy="180" rx="70" ry="12" fill="rgba(88, 28, 135, 0.4)" filter="blur(8px)"/>
+                <!-- 闇の鎌型バナナ -->
+                <path d="M150 30 C130 50 40 70 50 160 C55 170 70 170 80 160 C110 110 170 100 175 75 C180 50 170 35 150 30 Z" fill="url(#dark-banana)" stroke="#3b0764" stroke-width="2.5"/>
+                <!-- 邪悪なヘタ -->
+                <path d="M150 30 L165 15 L175 25 L160 38 Z" fill="#1e1b4b"/>
+                <!-- バナナの筋・闇の紋章 -->
+                <path d="M82 140 Q120 110 155 75" fill="none" stroke="#2e1065" stroke-width="2"/>
+                <!-- 禍々しい赤い単眼 -->
+                <circle cx="105" cy="115" r="9" fill="#000" stroke="#f43f5e" stroke-width="2"/>
+                <circle cx="105" cy="115" r="4" fill="#f43f5e" filter="drop-shadow(0 0 5px #ef4444)"/>
+                <path d="M90 105 Q105 100 120 105" fill="none" stroke="#dc2626" stroke-width="2"/>
+                <!-- ギザギザの傷跡 -->
+                <path d="M68 135 L75 145 M72 133 L79 143" stroke="#f43f5e" stroke-width="1.5"/>
+
+                <defs>
+                    <linearGradient id="dark-banana" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#4c1d95"/>
+                        <stop offset="50%" stop-color="#1e1b4b"/>
+                        <stop offset="100%" stop-color="#ca8a04"/>
+                    </linearGradient>
+                </defs>
+            </svg>`,
+
+            durian: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- 破滅のオーラ -->
+                <circle cx="100" cy="110" r="75" fill="rgba(220, 38, 38, 0.15)" filter="blur(15px)"/>
+                <circle cx="100" cy="110" r="65" fill="none" stroke="#b91c1c" stroke-width="1" opacity="0.4" stroke-dasharray="12,6"/>
+                <!-- 魔王の角王冠 -->
+                <path d="M75 55 L100 30 L125 55 L113 45 L100 50 L87 45 Z" fill="url(#crown-grad)" stroke="#1e1b4b" stroke-width="1.5"/>
+                <!-- 棘付き巨大ドリアン本体 -->
+                <path d="M100 50 C55 50 45 80 45 130 C45 180 75 190 100 190 C125 190 155 180 155 130 C155 80 145 50 100 50 Z" fill="url(#durian-skin)" stroke="#14532d" stroke-width="2.5"/>
+                <!-- 無数に生えるリアルな鋭いトゲ群 -->
+                <!-- 左側トゲ -->
+                <path d="M48 90 L30 85 L48 105 Z" fill="#ca8a04"/>
+                <path d="M45 115 L25 115 L48 130 Z" fill="#ca8a04"/>
+                <path d="M48 140 L28 148 L53 155 Z" fill="#ca8a04"/>
+                <!-- 右側トゲ -->
+                <path d="M152 90 L170 85 L152 105 Z" fill="#ca8a04"/>
+                <path d="M155 115 L175 115 L152 130 Z" fill="#ca8a04"/>
+                <path d="M152 140 L172 148 L147 155 Z" fill="#ca8a04"/>
+                <!-- 表面トゲ影 -->
+                <path d="M70 100 L62 90 L80 105 Z" fill="#854d0e"/>
+                <path d="M130 100 L138 90 L120 105 Z" fill="#854d0e"/>
+                <path d="M70 150 L60 145 L82 155 Z" fill="#854d0e"/>
+                <path d="M130 150 L140 145 L118 155 Z" fill="#854d0e"/>
+                <!-- 中央トゲ -->
+                <path d="M100 170 L100 185 L108 175 Z" fill="#eab308"/>
+                <!-- 魔王の邪眼（中心に位置する巨大な単眼） -->
+                <ellipse cx="100" cy="115" rx="22" ry="14" fill="#000" stroke="#b91c1c" stroke-width="3"/>
+                <!-- 燃え盛る虹彩 -->
+                <ellipse cx="100" cy="115" rx="14" ry="9" fill="url(#eye-fire)"/>
+                <!-- 光るスリット瞳孔 -->
+                <line x1="100" y1="106" x2="100" y2="124" stroke="#fff" stroke-width="4.5" stroke-linecap="round" filter="drop-shadow(0 0 5px #fff)"/>
+                
+                <defs>
+                    <linearGradient id="durian-skin" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#14532d"/>
+                        <stop offset="60%" stop-color="#713f12"/>
+                        <stop offset="100%" stop-color="#3f2305"/>
+                    </linearGradient>
+                    <linearGradient id="crown-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#1e1b4b"/>
+                        <stop offset="50%" stop-color="#dc2626"/>
+                        <stop offset="100%" stop-color="#450a0a"/>
+                    </linearGradient>
+                    <radialGradient id="eye-fire" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#facc15"/>
+                        <stop offset="50%" stop-color="#ea580c"/>
+                        <stop offset="100%" stop-color="#7f1d1d"/>
+                    </radialGradient>
+                </defs>
+            </svg>`
         };
 
-        const enemyTemplate = {
-            name: 'ヴィラン・アップル',
-            icon: '🍎',
-            maxHp: 300,
-            atk: 18
+        // キャラクター選択カードのプレビューを表示
+        document.getElementById('preview-princess').innerHTML = characterSVGs.princess;
+        document.getElementById('preview-wizard').innerHTML = characterSVGs.wizard;
+        document.getElementById('preview-beast').innerHTML = characterSVGs.beast;
+
+        // --- データ定義 ---
+        const characters = {
+            princess: { id: 'princess', name: 'プリンセス', svg: characterSVGs.princess, maxHp: 150, atk: 15 },
+            wizard:   { id: 'wizard',   name: '魔法使い',   svg: characterSVGs.wizard, maxHp: 120, atk: 25 },
+            beast:    { id: 'beast',    name: '野獣',       svg: characterSVGs.beast, maxHp: 200, atk: 12 }
         };
+
+        const enemiesList = [
+            { name: 'ヴィラン・アップル', svg: characterSVGs.apple, maxHp: 300, atk: 18 },
+            { name: 'ダーク・バナナ', svg: characterSVGs.banana, maxHp: 500, atk: 25 },
+            { name: '魔王ドリアン', svg: characterSVGs.durian, maxHp: 800, atk: 35 }
+        ];
 
         // --- ゲーム状態管理 ---
         let player = null;
         let enemy = null;
         let isBattleActive = false;
+        let currentStage = 0;
         
         let pIsActioning = false;
         let pIsDefending = false;
@@ -642,7 +926,7 @@
         // --- ゲーム開始 ---
         function selectCharacter(charId) {
             player = { ...characters[charId], hp: characters[charId].maxHp };
-            enemy = { ...enemyTemplate, hp: enemyTemplate.maxHp };
+            currentStage = 0;
             
             pSpecialCharge = 0;
             pIsActioning = false;
@@ -651,11 +935,19 @@
             eIsActioning = false;
             eIsDefending = false;
             
+            showScreen('screen-battle');
+            setupStage();
+        }
+
+        function setupStage() {
+            enemy = { ...enemiesList[currentStage], hp: enemiesList[currentStage].maxHp };
+            
             // UI初期化
             document.getElementById('player-name').innerText = player.name;
-            document.getElementById('player-sprite').innerText = player.icon;
+            document.getElementById('player-sprite').innerHTML = player.svg;
             document.getElementById('enemy-name').innerText = enemy.name;
-            document.getElementById('enemy-sprite').innerText = enemy.icon;
+            document.getElementById('enemy-sprite').innerHTML = enemy.svg;
+            document.getElementById('stage-display').innerText = currentStage + 1;
             
             document.getElementById('player-sprite').className = 'sprite idle';
             document.getElementById('enemy-sprite').className = 'sprite idle-enemy scale-x-reverse';
@@ -663,14 +955,13 @@
             document.getElementById('enemy-shield').style.opacity = '0';
 
             updateHUD();
-            showScreen('screen-battle');
-            
             isBattleActive = true;
             
             // 敵のAI起動
             startEnemyAI();
 
             // 必殺技ゲージの自動チャージ（1秒に5%）
+            if (chargeIntervalId) clearInterval(chargeIntervalId);
             chargeIntervalId = setInterval(() => {
                 if(!isBattleActive) return;
                 addSpecialCharge(5);
@@ -719,9 +1010,9 @@
             
             if(type === 'player-dmg') div.style.color = '#ef4444'; // 赤
             else if(type === 'enemy-dmg') div.style.color = '#ffffff'; // 白
-            else if(type === 'guard') div.style.color = '#3b82f6'; // 青
+            else if(type === 'guard') div.style.color = '#60a5fa'; // 青
             else if(type === 'heal') div.style.color = '#4ade80'; // 緑
-            else if(type === 'critical') { div.style.color = '#facc15'; div.style.fontSize = '4rem'; } // 黄色大
+            else if(type === 'critical') { div.style.color = '#facc15'; div.style.fontSize = '4.5rem'; } // 黄色大
 
             // 少しランダムに散らす
             const offsetX = (Math.random() - 0.5) * 80;
@@ -777,21 +1068,21 @@
             document.getElementById('player-shield').style.opacity = '0';
             
             // 突進アニメーション
-            triggerAnim('player-sprite', 'anim-dash-right', 300);
+            triggerAnim('player-sprite', 'anim-dash-right', 350);
 
             // ヒット判定 (アニメーションの中間くらいで発生)
             setTimeout(() => {
                 if(!isBattleActive) return;
 
                 let dmg = Math.floor(player.atk * (0.8 + Math.random() * 0.4));
-                let isCrit = Math.random() < 0.1;
+                let isCrit = Math.random() < 0.15;
                 if(isCrit) dmg = Math.floor(dmg * 1.5);
 
                 if(eIsDefending) {
                     dmg = Math.floor(dmg * 0.3); // ガード時70%カット
                     spawnDamageText('enemy-sprite', 'GUARD', 'guard');
                 } else {
-                    triggerAnim('enemy-sprite', 'anim-enemy-hit', 400);
+                    triggerAnim('enemy-sprite', 'anim-enemy-hit', 450);
                     spawnDamageText('enemy-sprite', dmg, isCrit ? 'critical' : 'enemy-dmg');
                 }
                 
@@ -800,10 +1091,10 @@
                 updateHUD();
                 checkWin();
 
-            }, 150);
+            }, 160);
 
             // アクション終了
-            setTimeout(() => { pIsActioning = false; }, 350);
+            setTimeout(() => { pIsActioning = false; }, 400);
         }
 
         function doDefend() {
@@ -867,131 +1158,153 @@
                         spawnDamageText('enemy-sprite', dmg, 'critical');
                         checkWin();
                     }, 150);
+                    
                     // バフは5秒で切れる
-                    setTimeout(() => { pDefenseBuff = false; }, 5000);
+                    setTimeout(() => {
+                        pDefenseBuff = false;
+                    }, 5000);
                 }
 
                 updateHUD();
-                
+
                 // エフェクト解除
-                overlay.classList.remove('show');
-                document.getElementById('game-body').classList.remove('anim-screen-shake');
-                
-                pIsActioning = false;
-            }, 600);
-        }
-
-        // ================= 敵のAI（リアルタイムループ） =================
-        function startEnemyAI() {
-            function aiLoop() {
-                if(!isBattleActive) return;
-                
-                // 0.8秒〜1.8秒のランダム間隔で行動
-                const delay = 800 + Math.random() * 1000;
-                enemyAiLoopId = setTimeout(() => {
-                    if(!isBattleActive || eIsActioning) return aiLoop();
-                    
-                    const r = Math.random();
-                    if(r < 0.25) {
-                        enemyDefend();
-                    } else if(r < 0.85) {
-                        enemyAttack(false);
-                    } else {
-                        enemyAttack(true); // 強攻撃
-                    }
-                    
-                    aiLoop();
-                }, delay);
-            }
-            aiLoop();
-        }
-
-        function enemyAttack(isStrong) {
-            eIsActioning = true;
-            eIsDefending = false;
-            document.getElementById('enemy-shield').style.opacity = '0';
-
-            // 事前モーション（強攻撃の場合は赤く光ってタメる）
-            if(isStrong) {
-                document.getElementById('enemy-sprite').style.filter = 'drop-shadow(0 0 20px red)';
-            }
-
-            const prepTime = isStrong ? 600 : 0; // 強攻撃は隙がある
-            
-            setTimeout(() => {
-                if(!isBattleActive) return;
-                document.getElementById('enemy-sprite').style.filter = 'drop-shadow(0 25px 25px rgba(0,0,0,0.5))'; // 元に戻す
-                
-                // 突進アニメーション
-                triggerAnim('enemy-sprite', 'anim-dash-left', 300);
-
-                // ヒット判定
                 setTimeout(() => {
-                    if(!isBattleActive) return;
-                    
-                    let dmg = Math.floor(enemy.atk * (isStrong ? 2.0 : 1.0) * (0.8 + Math.random() * 0.4));
-                    
-                    // 防御・バフ判定
-                    if(pIsDefending) {
-                        dmg = Math.floor(dmg * 0.3);
-                        spawnDamageText('player-sprite', 'GUARD', 'guard');
-                    } else {
-                        if(pDefenseBuff) dmg = Math.floor(dmg * 0.6); // 野獣バフ
-                        triggerAnim('player-sprite', 'anim-hit', 400);
-                        spawnDamageText('player-sprite', dmg, 'player-dmg');
-                        
-                        if(isStrong) {
-                            document.getElementById('game-body').classList.add('anim-screen-shake');
-                            setTimeout(() => document.getElementById('game-body').classList.remove('anim-screen-shake'), 300);
-                        }
+                    overlay.classList.remove('show');
+                    document.getElementById('game-body').classList.remove('anim-screen-shake');
+                    pIsActioning = false; // 次の行動可能に
+                }, 500);
+            }, 300); // 暗転後のタメ
+        }
+
+        // ================= アクション（敵AI） =================
+        function startEnemyAI() {
+            function loop() {
+                if(!isBattleActive) return;
+                
+                // アクション間隔(1.2秒〜2.5秒)
+                const nextActionTime = 1200 + Math.random() * 1300;
+                
+                enemyAiLoopId = setTimeout(() => {
+                    if(!isBattleActive || eIsActioning) {
+                        loop();
+                        return;
                     }
+
+                    eIsActioning = true;
                     
-                    player.hp -= dmg;
-                    updateHUD();
-                    checkWin();
-                }, 150);
+                    // 前回の防御状態を解除
+                    eIsDefending = false;
+                    document.getElementById('enemy-shield').style.opacity = '0';
 
-                setTimeout(() => { eIsActioning = false; }, 400);
+                    // 攻撃か防御か (70% 攻撃, 30% 防御)
+                    if(Math.random() < 0.7) {
+                        // 攻撃
+                        triggerAnim('enemy-sprite', 'anim-dash-left', 400);
+                        
+                        setTimeout(() => {
+                            if(!isBattleActive) return;
+                            
+                            let dmg = Math.floor(enemy.atk * (0.8 + Math.random() * 0.4));
+                            
+                            // 野獣の防御バフ中ならダメージ半減
+                            if(pDefenseBuff) dmg = Math.floor(dmg * 0.5);
 
-            }, prepTime);
-        }
+                            if(pIsDefending) {
+                                dmg = Math.floor(dmg * 0.3); // ガード時70%カット
+                                spawnDamageText('player-sprite', 'GUARD', 'guard');
+                            } else {
+                                triggerAnim('player-sprite', 'anim-hit', 450);
+                                spawnDamageText('player-sprite', dmg, 'player-dmg');
+                            }
+                            
+                            player.hp -= dmg;
+                            updateHUD();
+                            checkWin();
+                        }, 200);
 
-        function enemyDefend() {
-            eIsActioning = true;
-            eIsDefending = true;
-            document.getElementById('enemy-shield').style.opacity = '1';
+                        // アクション終了
+                        setTimeout(() => { 
+                            eIsActioning = false; 
+                            loop(); 
+                        }, 600);
+
+                    } else {
+                        // 防御
+                        eIsDefending = true;
+                        document.getElementById('enemy-shield').style.opacity = '1';
+                        
+                        // 約1秒間ガード
+                        setTimeout(() => {
+                            eIsDefending = false;
+                            document.getElementById('enemy-shield').style.opacity = '0';
+                            eIsActioning = false;
+                            loop();
+                        }, 1000);
+                    }
+                }, nextActionTime);
+            }
             
-            setTimeout(() => {
-                eIsDefending = false;
-                document.getElementById('enemy-shield').style.opacity = '0';
-                eIsActioning = false;
-            }, 1000);
+            // ループ開始
+            loop();
         }
 
-        // ================= 勝敗判定 =================
+        // ================= ゲーム進行管理 =================
         function checkWin() {
-            if(player.hp <= 0 || enemy.hp <= 0) {
+            if(!isBattleActive) return;
+
+            if(player.hp <= 0) {
+                endBattle(false);
+            } else if(enemy.hp <= 0) {
                 isBattleActive = false;
                 clearTimeout(enemyAiLoopId);
                 clearInterval(chargeIntervalId);
 
-                setTimeout(() => {
-                    const title = document.getElementById('result-title');
-                    const desc = document.getElementById('result-desc');
-                    
-                    if(player.hp > 0) {
-                        title.innerText = "YOU WIN!";
-                        title.className = "result-title font-magic win";
-                        desc.innerText = "見事ヴィランを打ち倒した！";
-                    } else {
-                        title.innerText = "YOU LOSE...";
-                        title.className = "result-title font-magic lose";
-                        desc.innerText = "力尽きてしまった...";
-                    }
-                    showScreen('screen-result');
-                }, 1000); // 倒れた後少し待ってからリザルトへ
+                currentStage++;
+                if (currentStage >= enemiesList.length) {
+                    endBattle(true);
+                } else {
+                    // 次のステージへ進む演出
+                    showCutin("STAGE CLEAR!", "text-color-green");
+                    setTimeout(() => {
+                        // プレイヤーのHPを30%回復
+                        const heal = Math.floor(player.maxHp * 0.3);
+                        player.hp = Math.min(player.maxHp, player.hp + heal);
+                        spawnDamageText('player-sprite', `+${heal}`, 'heal');
+                        updateHUD();
+                        
+                        setTimeout(() => {
+                            showCutin(`STAGE ${currentStage + 1}`, "text-color-blue");
+                            setupStage();
+                        }, 1500);
+                    }, 1500);
+                }
             }
         }
+
+        function endBattle(isWin) {
+            isBattleActive = false;
+            clearTimeout(enemyAiLoopId);
+            clearInterval(chargeIntervalId);
+
+            // 少し間を置いてリザルト表示
+            setTimeout(() => {
+                const title = document.getElementById('result-title');
+                const desc = document.getElementById('result-desc');
+                
+                if(isWin) {
+                    title.innerText = 'GAME CLEAR!';
+                    title.className = 'result-title font-magic win';
+                    desc.innerText = '邪悪な「魔王ドリアン」を打ち倒し、果実界に真の平和が訪れた！あなたは伝説のファイターだ！';
+                } else {
+                    title.innerText = 'GAME OVER';
+                    title.className = 'result-title font-magic lose';
+                    desc.innerText = '魔王の強大な闇の力の前に、ファイターは力尽きてしまった。もう一度挑戦しよう！';
+                }
+                
+                showScreen('screen-result');
+            }, 1000);
+        }
+
     </script>
 </body>
 </html>
