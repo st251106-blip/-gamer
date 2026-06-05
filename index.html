@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DURIAN FIGHTER 〜魔法の果実〜</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* --- ベーススタイル --- */
         :root {
@@ -575,7 +576,6 @@
         </button>
     </div>
 
-
     <script>
         // --- 背景の星屑生成 ---
         function createStars() {
@@ -873,94 +873,83 @@
 
                 updateHUD();
                 
-                // エフェクト解除
-                overlay.classList.remove('show');
-                document.getElementById('game-body').classList.remove('anim-screen-shake');
-                
-                pIsActioning = false;
-            }, 600);
+                // 状態リセット
+                setTimeout(() => {
+                    overlay.classList.remove('show');
+                    document.getElementById('game-body').classList.remove('anim-screen-shake');
+                    pIsActioning = false;
+                }, 1000);
+
+            }, 200);
         }
 
-        // ================= 敵のAI（リアルタイムループ） =================
+        // ================= アクション（敵AI） =================
         function startEnemyAI() {
-            function aiLoop() {
+            function loop() {
                 if(!isBattleActive) return;
                 
-                // 0.8秒〜1.8秒のランダム間隔で行動
-                const delay = 800 + Math.random() * 1000;
-                enemyAiLoopId = setTimeout(() => {
-                    if(!isBattleActive || eIsActioning) return aiLoop();
-                    
-                    const r = Math.random();
-                    if(r < 0.25) {
+                // ランダムに攻撃・防御・待機を決定
+                const actionChoice = Math.random();
+                if(!eIsActioning) {
+                    if(actionChoice < 0.5) {
+                        enemyAttack();
+                    } else if(actionChoice < 0.7) {
                         enemyDefend();
-                    } else if(r < 0.85) {
-                        enemyAttack(false);
-                    } else {
-                        enemyAttack(true); // 強攻撃
                     }
-                    
-                    aiLoop();
-                }, delay);
+                }
+                
+                // 次の行動までのインターバル(1〜2.5秒)
+                const nextTime = 1000 + Math.random() * 1500;
+                enemyAiLoopId = setTimeout(loop, nextTime);
             }
-            aiLoop();
+            loop(); // ループ開始
         }
 
-        function enemyAttack(isStrong) {
+        function enemyAttack() {
+            if(eIsActioning || !isBattleActive) return;
             eIsActioning = true;
+            
+            // 防御解除
             eIsDefending = false;
             document.getElementById('enemy-shield').style.opacity = '0';
-
-            // 事前モーション（強攻撃の場合は赤く光ってタメる）
-            if(isStrong) {
-                document.getElementById('enemy-sprite').style.filter = 'drop-shadow(0 0 20px red)';
-            }
-
-            const prepTime = isStrong ? 600 : 0; // 強攻撃は隙がある
             
+            // 突進アニメーション
+            triggerAnim('enemy-sprite', 'anim-dash-left', 400);
+
             setTimeout(() => {
                 if(!isBattleActive) return;
-                document.getElementById('enemy-sprite').style.filter = 'drop-shadow(0 25px 25px rgba(0,0,0,0.5))'; // 元に戻す
+
+                let dmg = Math.floor(enemy.atk * (0.8 + Math.random() * 0.4));
+                // 野獣バフ中のダメージ半減
+                if(pDefenseBuff) dmg = Math.floor(dmg * 0.5);
+
+                if(pIsDefending) {
+                    dmg = Math.floor(dmg * 0.3); // ガード時70%カット
+                    spawnDamageText('player-sprite', 'GUARD', 'guard');
+                } else {
+                    triggerAnim('player-sprite', 'anim-hit', 400);
+                    spawnDamageText('player-sprite', dmg, 'player-dmg');
+                }
                 
-                // 突進アニメーション
-                triggerAnim('enemy-sprite', 'anim-dash-left', 300);
+                player.hp -= dmg;
+                addSpecialCharge(5); // 被弾でも少しチャージ
+                updateHUD();
+                checkWin();
 
-                // ヒット判定
-                setTimeout(() => {
-                    if(!isBattleActive) return;
-                    
-                    let dmg = Math.floor(enemy.atk * (isStrong ? 2.0 : 1.0) * (0.8 + Math.random() * 0.4));
-                    
-                    // 防御・バフ判定
-                    if(pIsDefending) {
-                        dmg = Math.floor(dmg * 0.3);
-                        spawnDamageText('player-sprite', 'GUARD', 'guard');
-                    } else {
-                        if(pDefenseBuff) dmg = Math.floor(dmg * 0.6); // 野獣バフ
-                        triggerAnim('player-sprite', 'anim-hit', 400);
-                        spawnDamageText('player-sprite', dmg, 'player-dmg');
-                        
-                        if(isStrong) {
-                            document.getElementById('game-body').classList.add('anim-screen-shake');
-                            setTimeout(() => document.getElementById('game-body').classList.remove('anim-screen-shake'), 300);
-                        }
-                    }
-                    
-                    player.hp -= dmg;
-                    updateHUD();
-                    checkWin();
-                }, 150);
+            }, 200);
 
-                setTimeout(() => { eIsActioning = false; }, 400);
-
-            }, prepTime);
+            // アクション終了
+            setTimeout(() => { eIsActioning = false; }, 500);
         }
 
         function enemyDefend() {
+            if(eIsActioning || !isBattleActive) return;
             eIsActioning = true;
             eIsDefending = true;
+            
             document.getElementById('enemy-shield').style.opacity = '1';
             
+            // 敵は少し長めにガード
             setTimeout(() => {
                 eIsDefending = false;
                 document.getElementById('enemy-shield').style.opacity = '0';
@@ -970,27 +959,42 @@
 
         // ================= 勝敗判定 =================
         function checkWin() {
-            if(player.hp <= 0 || enemy.hp <= 0) {
-                isBattleActive = false;
-                clearTimeout(enemyAiLoopId);
-                clearInterval(chargeIntervalId);
-
-                setTimeout(() => {
-                    const title = document.getElementById('result-title');
-                    const desc = document.getElementById('result-desc');
-                    
-                    if(player.hp > 0) {
-                        title.innerText = "YOU WIN!";
-                        title.className = "result-title font-magic win";
-                        desc.innerText = "見事ヴィランを打ち倒した！";
-                    } else {
-                        title.innerText = "YOU LOSE...";
-                        title.className = "result-title font-magic lose";
-                        desc.innerText = "力尽きてしまった...";
-                    }
-                    showScreen('screen-result');
-                }, 1000); // 倒れた後少し待ってからリザルトへ
+            if(player.hp <= 0 && enemy.hp <= 0) {
+                endGame('draw');
+            } else if(player.hp <= 0) {
+                endGame('lose');
+            } else if(enemy.hp <= 0) {
+                endGame('win');
             }
+        }
+
+        function endGame(result) {
+            if(!isBattleActive) return;
+            isBattleActive = false; // 先行して入力をブロック
+            
+            clearTimeout(enemyAiLoopId);
+            clearInterval(chargeIntervalId);
+
+            // リザルト画面への遷移
+            setTimeout(() => {
+                showScreen('screen-result');
+                const title = document.getElementById('result-title');
+                const desc = document.getElementById('result-desc');
+                
+                if(result === 'win') {
+                    title.innerText = 'YOU WIN!';
+                    title.className = 'result-title font-magic win';
+                    desc.innerText = '見事ヴィランを打ち倒した！';
+                } else if(result === 'lose') {
+                    title.innerText = 'YOU LOSE...';
+                    title.className = 'result-title font-magic lose';
+                    desc.innerText = '力及ばず、倒れてしまった...';
+                } else {
+                    title.innerText = 'DRAW';
+                    title.className = 'result-title font-magic';
+                    desc.innerText = '激闘の末、相打ちとなった...';
+                }
+            }, 1000); // 倒れた余韻を残すための1秒ディレイ
         }
     </script>
 </body>
